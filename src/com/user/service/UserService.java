@@ -9,5 +9,5 @@ public interface UserService {
 
 	User create(User user);
 	List<User> getUser();
-	
+	UserDetails create(UserDetails userDetails);
 }

@@ -7,14 +7,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.user.bean.User;
-import com.user.db.UserDB;
+import com.user.bean.UserDetails;
+import com.user.db.AbstractDB;
+
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	private UserDB userDB;
-
+	private AbstractDB<User> userDB;
+	
+	@Autowired
+	private AbstractDB<UserDetails> userDataDB;
+	
+    
 	@Transactional(readOnly = false)
 	public User create(User user) {
 
@@ -25,6 +31,11 @@ public class UserServiceImpl implements UserService {
 	public List<User> getUser(){
 		return userDB.getUser();
 		
+	}
+	@Transactional(readOnly = false)
+	public UserDetails create(UserDetails userDetails){
+		System.out.print(userDetails.getUserName()+"Hai"+userDetails);
+		return userDataDB.merge(userDetails);
 	}
 
 }

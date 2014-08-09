@@ -1,28 +1,29 @@
 package com.user.bean;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.springframework.stereotype.Service;
+import javax.persistence.Transient;
 
 @Entity
-@Service("user")
-@Table(name="registerUser")
+@Table(name = "registerUser")
 public class User implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	@Id @GeneratedValue
+	@Id
+	@GeneratedValue
 	private int id;
 	private String mailid;
 	private String password;
 	private long phonenumber;
 
-	public User(){
-		
+	
+	public User() {
+
 	}
 
 	public int getId() {
@@ -56,5 +57,5 @@ public class User implements Serializable {
 	public void setPhonenumber(long phonenumber) {
 		this.phonenumber = phonenumber;
 	}
-	
-	}
+
+}

@@ -1,24 +1,25 @@
 package com.user.bean;
 
-import java.util.Date;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userDetails")
-@Table(name = "userDetails")
+@Table(name = "applicationData")
 public class UserDetails {
 	@Id
 	@GeneratedValue
 	private int id;
 	private String userName;
 	private String gender;
-	private Date dob;
+	private String dob;
 	private String fatherName;
 	private String motherName;
 	private String nationality;
@@ -32,6 +33,21 @@ public class UserDetails {
 	private String photo_details;
 	private String application_name;
 	private String currentCity;
+	
+	@Transient
+	private UserAcademic userAcademic;
+
+	
+	public UserAcademic getUserAcademic() {
+		return userAcademic;
+	}
+
+	public void setUserAcademic(UserAcademic userAcademic) {
+		this.userAcademic = userAcademic;
+	    System.out.print(userAcademic);   
+	}
+
+	
 
 	public String getMailingAddress() {
 		return mailingAddress;
@@ -73,16 +89,16 @@ public class UserDetails {
 		this.gender = gender;
 	}
 
-	public Date getDob() {
+	public String getFatherName() {
+		return fatherName;
+	}
+
+	public String getDob() {
 		return dob;
 	}
 
-	public void setDob(Date dob) {
+	public void setDob(String dob) {
 		this.dob = dob;
-	}
-
-	public String getFatherName() {
-		return fatherName;
 	}
 
 	public void setFatherName(String fatherName) {

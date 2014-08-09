@@ -1,10 +1,18 @@
 package com.user.db;
 
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.user.bean.UserDetails;
-
-@Repository("userDataDB")
+@Service("userDataDB")
 public class UserDataDB extends AbstractDB<UserDetails>{
+
+	@Override
+	public
+	List<UserDetails> getUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

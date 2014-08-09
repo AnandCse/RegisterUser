@@ -13,5 +13,4 @@ public class UserDB extends AbstractDB<User> {
 	public List<User> getUser() {
 		return entity.createQuery("select u from User u").getResultList();
 	}
-
 }

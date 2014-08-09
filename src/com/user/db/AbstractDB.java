@@ -1,9 +1,11 @@
 package com.user.db;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-public class AbstractDB<T> {
+public abstract class AbstractDB<T> {
 	@PersistenceContext
 	EntityManager entity;
 
@@ -13,6 +15,7 @@ public class AbstractDB<T> {
 	}
 
 	public T merge(T t) {
+		System.out.print(t+"Hai");
 		entity.merge(t);
 		return t;
 	}
@@ -21,5 +24,7 @@ public class AbstractDB<T> {
 		entity.remove(t);
 		return t;
 	}
+	
+	public abstract List<T> getUser(); 
 
 }

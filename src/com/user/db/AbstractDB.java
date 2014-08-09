@@ -1,6 +1,7 @@
 package com.user.db;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,5 +27,5 @@ public abstract class AbstractDB<T> {
 	}
 	
 	public abstract List<T> getUser(); 
-
+    public abstract T update(int id,Map<String,T> m); 
 }

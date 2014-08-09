@@ -13,11 +13,12 @@
 
 
 	<bean id="user" class="com.user.bean.User" />
-	<bean id="userDetails" class="com.user.bean.UserDetails" />
 	<bean id="userDB" class="com.user.db.UserDB" />
 	<bean id="userDataDB" class="com.user.db.UserDataDB" />
 	<bean id="userDataImpl" class="com.user.service.UserDataImpl" />
-	<bean id="userAcademic" class="com.user.bean.UserAcademic" />
+	<bean id="userAcademic" class="com.user.bean.UserAcademic">
+	</bean>
+	<bean id="userDetails" class="com.user.bean.UserDetails"></bean>
 
 
 </beans>

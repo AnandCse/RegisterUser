@@ -6,6 +6,7 @@
 		transaction-type="RESOURCE_LOCAL">
 		<class>com.user.bean.UserDetails</class>
 		<class>com.user.bean.User</class>
+        <class>com.user.bean.UserAcademic</class>
         
          
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>

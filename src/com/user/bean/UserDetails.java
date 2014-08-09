@@ -1,18 +1,22 @@
 package com.user.bean;
 
+import java.util.Map;
 
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MapKey;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userDetails")
-@Table(name = "applicationData")
+@Table(name = "userDetails")
 public class UserDetails {
 	@Id
 	@GeneratedValue
@@ -33,25 +37,40 @@ public class UserDetails {
 	private String photo_details;
 	private String application_name;
 	private String currentCity;
-	
-	@Transient
-	private UserAcademic userAcademic;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id")
+	@MapKey(name="key_name")
+	private Map<String,UserAcademic> userAcademic;
 
 	
-	public UserAcademic getUserAcademic() {
+	
+	
+	/*	public UserAcademic getUserAcademic() {
 		return userAcademic;
 	}
 
 	public void setUserAcademic(UserAcademic userAcademic) {
 		this.userAcademic = userAcademic;
-	    System.out.print(userAcademic);   
 	}
-
+*/
 	
 
 	public String getMailingAddress() {
 		return mailingAddress;
 	}
+
+	
+	public Map<String, UserAcademic> getUserAcademic() {
+		return userAcademic;
+	}
+
+
+	public void setUserAcademic(Map<String, UserAcademic> userAcademic) {
+		System.out.print(userAcademic);
+		this.userAcademic = userAcademic;
+	}
+
 
 	public void setMailingAddress(String mailingAddress) {
 		this.mailingAddress = mailingAddress;

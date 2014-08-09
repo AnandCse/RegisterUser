@@ -2,6 +2,7 @@ package com.user.controller;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -146,39 +147,62 @@ public class UserController {
 		ApplicationContext info = new ClassPathXmlApplicationContext("app.xml");
 		UserDetails userDetails = (UserDetails) info.getBean("userDetails");
 		UserAcademic userAcademic = (UserAcademic) info.getBean("userAcademic");
-		Map<String, String> academicMap = new HashMap<String, String>();
-		academicMap.put("pg_degree", pRequest.getParameter("pg_degree"));
-		academicMap
-				.put("pg_discipline", pRequest.getParameter("pg_discipline"));
-		academicMap.put("pg_school", pRequest.getParameter("pg_school"));
-		academicMap
-				.put("pg_university", pRequest.getParameter("pg_university"));
-		academicMap.put("pg_year", pRequest.getParameter("pg_passedOut"));
-		academicMap.put("pg_cgpa", pRequest.getParameter("pg_percentage"));
-
-		academicMap.put("ug_degree", pRequest.getParameter("ug_degree"));
-		academicMap.put("ug_degree", pRequest.getParameter("ug_discipline"));
-		academicMap.put("ug_degree", pRequest.getParameter("ug_school"));
-		academicMap.put("ug_degree", pRequest.getParameter("ug_university"));
-		academicMap.put("ug_degree", pRequest.getParameter("ug_passedOut"));
-		academicMap.put("ug_degree", pRequest.getParameter("ug_percentage"));
-
-		academicMap.put("hs_degree", pRequest.getParameter("hs_degree"));
-		academicMap.put("hs_degree", pRequest.getParameter("hs_discipline"));
-		academicMap.put("hs_degree", pRequest.getParameter("hs_school"));
-		academicMap.put("hs_degree", pRequest.getParameter("hs_university"));
-		academicMap.put("hs_degree", pRequest.getParameter("hs_passedOut"));
-		academicMap.put("hs_degree", pRequest.getParameter("hs_percentage"));
-
-		academicMap.put("s_degree", pRequest.getParameter("s_degree"));
-		academicMap.put("s_degree", pRequest.getParameter("s_discipline"));
-		academicMap.put("s_degree", pRequest.getParameter("s_school"));
-		academicMap.put("s_degree", pRequest.getParameter("s_university"));
-		academicMap.put("s_degree", pRequest.getParameter("s_passedOut"));
-		academicMap.put("s_degree", pRequest.getParameter("s_percentage"));
-
-		userAcademic.setAcademic(academicMap);
-
+		
+		Map<String, UserAcademic> academicMap = new HashMap<String, UserAcademic>();
+		userAcademic.setDegree(pRequest.getParameter("pg_degree"));
+		userAcademic.setCgpa(pRequest.getParameter("pg_percentage"));
+		userAcademic.setDiscipline(pRequest.getParameter("pg_discipline"));
+		userAcademic.setSchool(pRequest.getParameter("pg_school"));
+		userAcademic.setUniversity("pg_university");
+		userAcademic.setYear(pRequest.getParameter("pg_percentage"));
+		userAcademic.setKey_name("PostGraduate");
+		academicMap.put("PostGraduate", userAcademic);
+		
+		userAcademic.setDegree(pRequest.getParameter("ug_degree"));
+		userAcademic.setCgpa(pRequest.getParameter("ug_percentage"));
+		userAcademic.setDiscipline(pRequest.getParameter("ug_discipline"));
+		userAcademic.setSchool(pRequest.getParameter("ug_school"));
+		userAcademic.setUniversity("ug_university");
+		userAcademic.setYear(pRequest.getParameter("ug_percentage"));
+		userAcademic.setKey_name("UnderGraduate");
+		academicMap.put("UnderGraduate", userAcademic);
+		
+		userAcademic.setDegree(pRequest.getParameter("hs_degree"));
+		userAcademic.setCgpa(pRequest.getParameter("hs_percentage"));
+		userAcademic.setDiscipline(pRequest.getParameter("hs_discipline"));
+		userAcademic.setSchool(pRequest.getParameter("hs_school"));
+		userAcademic.setUniversity("hs_university");
+		userAcademic.setYear(pRequest.getParameter("hs_percentage"));
+		userAcademic.setKey_name("HigherSecondary");
+		academicMap.put("HigherSecondary", userAcademic);
+		
+		
+		
+		userAcademic.setDegree(pRequest.getParameter("s_degree"));
+		userAcademic.setCgpa(pRequest.getParameter("s_percentage"));
+		userAcademic.setDiscipline(pRequest.getParameter("s_discipline"));
+		userAcademic.setSchool(pRequest.getParameter("s_school"));
+		userAcademic.setUniversity("s_university");
+		userAcademic.setYear(pRequest.getParameter("s_percentage"));
+		userAcademic.setKey_name("SSLC");
+		academicMap.put("SSLC", userAcademic);
+		
+		
+        //Working Experience
+        /*String a_organization=pRequest.getParameter("a_organization");
+        String a_desgination=pRequest.getParameter("a_designation");
+        String a_now=pRequest.getParameter("a_nature_of_work");
+        String a_fr_date=pRequest.getParameter("a_from_date");
+        String a_to_date=pRequest.getParameter("a_to_date");
+        
+        String b_organization=pRequest.getParameter("b_organization");
+        String b_desgination=pRequest.getParameter("b_designation");
+        String b_now=pRequest.getParameter("b_nature_of_work");
+        String b_fr_date=pRequest.getParameter("b_from_date");
+        String b_to_date=pRequest.getParameter("b_to_date");
+        
+        */
+        
 		userDetails.setUserName(userName);
 		userDetails.setGender(gender);
 		userDetails.setDob(dob);
@@ -195,10 +219,23 @@ public class UserController {
 		userDetails.setPhoto_details(photo_details);
 		userDetails.setApplication_name(application_name);
 		userDetails.setCurrentCity(user_city);
+		userDetails.setUserAcademic(academicMap);
+		
+		
+		
 		try {
+			
 			UserDetails u = userService.create(userDetails);
-
-			System.out.print(u.getUserName());
+			System.out.println("first");
+			int id=userService.userId(mailId);
+			System.out.println("s");
+			if(id!=0){
+			
+				userService.update(id, academicMap);
+				System.out.println("t");
+			}
+			
+            
 		} catch (Exception e) {
 			System.out.print(e);
 		}

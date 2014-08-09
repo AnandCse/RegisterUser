@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.user.bean.UserDetails;
 import com.user.db.UserDataDB;
 
-@Service("userData")
+
 public class UserDataImpl {
 
 	

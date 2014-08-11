@@ -1,21 +1,27 @@
 package com.user.bean;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userAcademy")
-@Table(name = "userAcademic")
+@Table(name = "academyDB")
 public class UserAcademic {
 	@Id
 	@GeneratedValue
 	private int academic_id;
 
-	String key_name;
+/*	String key_name;
 	
 	public String getKey_name() {
 		return key_name;
@@ -71,8 +77,8 @@ public class UserAcademic {
 	public void setCgpa(String cgpa) {
 		this.cgpa = cgpa;
 	}
-	
-	/*String pg_degree;
+*/	
+	String pg_degree;
 	String pg_discipline;
 	String pg_school;
 	String pg_university;
@@ -100,8 +106,18 @@ public class UserAcademic {
 	String s_year;
 	String s_cgpa;
 	
-	
-			
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "ex_id")
+	private Set<WorkingExperience> work_experience;
+
+	public Set<WorkingExperience> getWork_experience() {
+		return work_experience;
+	}
+
+	public void setWork_experience(Set<WorkingExperience> work_experience) {
+		this.work_experience = work_experience;
+	}
+
 	public int getAcademic_id() {
 		return academic_id;
 	}
@@ -301,7 +317,7 @@ public class UserAcademic {
 	public void setS_cgpa(String s_cgpa) {
 		this.s_cgpa = s_cgpa;
 	}
-*/
+
 /*	public Map<String, String> getAcademic() {
 		return academic;
 	}

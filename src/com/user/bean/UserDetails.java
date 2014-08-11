@@ -1,6 +1,6 @@
 package com.user.bean;
 
-import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userDetails")
-@Table(name = "userDetails")
+@Table(name = "userDB")
 public class UserDetails {
 	@Id
 	@GeneratedValue
@@ -37,11 +37,15 @@ public class UserDetails {
 	private String photo_details;
 	private String application_name;
 	private String currentCity;
+	
+	private int total_experience;
+	private long anual_ctc;
+	
+	
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
-	@MapKey(name="key_name")
-	private Map<String,UserAcademic> userAcademic;
+	private Set<UserAcademic> userAcademic;
 
 	
 	
@@ -61,7 +65,7 @@ public class UserDetails {
 	}
 
 	
-	public Map<String, UserAcademic> getUserAcademic() {
+	/*public Map<String, UserAcademic> getUserAcademic() {
 		return userAcademic;
 	}
 
@@ -70,11 +74,43 @@ public class UserDetails {
 		System.out.print(userAcademic);
 		this.userAcademic = userAcademic;
 	}
+*/
 
-
+	
+	
 	public void setMailingAddress(String mailingAddress) {
 		this.mailingAddress = mailingAddress;
 	}
+
+	public int getTotal_experience() {
+		return total_experience;
+	}
+
+
+	public void setTotal_experience(int total_experience) {
+		this.total_experience = total_experience;
+	}
+
+
+	public long getAnual_ctc() {
+		return anual_ctc;
+	}
+
+
+	public void setAnual_ctc(long anual_ctc) {
+		this.anual_ctc = anual_ctc;
+	}
+
+
+	public Set<UserAcademic> getUserAcademic() {
+		return userAcademic;
+	}
+
+
+	public void setUserAcademic(Set<UserAcademic> userAcademic) {
+		this.userAcademic = userAcademic;
+	}
+
 
 	public long getMobileNumber() {
 		return mobileNumber;

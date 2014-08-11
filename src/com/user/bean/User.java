@@ -1,15 +1,16 @@
 package com.user.bean;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+
+import org.springframework.stereotype.Service;
 
 @Entity
+@Service("user")
 @Table(name = "registerUser")
 public class User implements Serializable {
 

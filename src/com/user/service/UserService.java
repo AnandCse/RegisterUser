@@ -11,7 +11,8 @@ public interface UserService {
 
 	User create(User user);
 	List<User> getUser();
+	List<UserDetails> getUserDetails();
 	UserDetails create(UserDetails userDetails);
 	public int userId(String mailId);
-	UserAcademic update(int id,Map<String,UserAcademic> userAcademic);
+	UserAcademic update(int id,UserAcademic userAcademic);
 }

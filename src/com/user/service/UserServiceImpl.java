@@ -23,6 +23,8 @@ public class UserServiceImpl implements UserService {
 	private AbstractDB<User> userDB;
 	@Autowired
 	private AbstractDB<UserDetails> userDataDB;
+	@Autowired 
+	private AbstractDB<UserAcademic> userDataAcademy;
 	
 	
 	
@@ -42,6 +44,12 @@ public class UserServiceImpl implements UserService {
 		return userDataDB.merge(userDetails);
 	}
 
+	public List<UserDetails> getUserDetails(){
+		return userDataDB.getUser();
+		
+	}
+	
+	
 	public Map upDate(Map userAcademy){
 		return  null;
 	}
@@ -66,13 +74,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = false)
-	public UserAcademic update(int id, Map<String, UserAcademic> userAcademic) {
+	public UserAcademic update(int id,UserAcademic userAcademic) {
 		// TODO Auto-generated method stub
 		
 		
 		System.out.println("m.f");
-		AbstractDB<UserAcademic> userAcademyDB=new UserAcademyDB();
-		return userAcademyDB.update(id,userAcademic);
+		return userDataAcademy.update(id,userAcademic);
 		
 	}
 	

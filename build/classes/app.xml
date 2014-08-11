@@ -19,6 +19,6 @@
 	<bean id="userAcademic" class="com.user.bean.UserAcademic">
 	</bean>
 	<bean id="userDetails" class="com.user.bean.UserDetails"></bean>
-
-
+    <bean id="work_experience" class="com.user.bean.WorkingExperience"/> 
+    <bean id="awards_achievments" class="com.user.bean.AwardsAndAchievments"/> 
 </beans>

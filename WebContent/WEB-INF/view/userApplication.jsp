@@ -7,6 +7,10 @@
 <link href="css/application.css" rel="stylesheet" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -24,9 +28,10 @@
 			</div>
 		</div>
 	</div>
-	<div class="container" style="border:1px solid black">
+	<div class="container" style="border: 1px solid black">
 		<div class="row">
-			<div class="col-md-10 col-md-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 col-xs-offset-1">
+			<div
+				class="col-md-10 col-md-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 col-xs-offset-1">
 				<form action="addData" method="post" style="width: 250"
 					class="form-horizontal">
 
@@ -37,7 +42,8 @@
 								<div class="col-md-3 col-sm-10 col-xs-10">
 									<input type="text" class="form-control" name="userName" />
 								</div>
-								<div class="col-md-3 col-sm-10 col-xs-10">UpLoad your Photo</div>
+								<div class="col-md-3 col-sm-10 col-xs-10">UpLoad your
+									Photo</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
 									<input type="file" name="photo" />
 								</div>
@@ -48,16 +54,16 @@
 							<div class="row">
 								<div class="col-md-2 col-sm-10 col-xs-10">Gender</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="radio" name="sex" value="male" />Male
-												<input
+									<input type="radio" name="sex" value="male" />Male <input
 										type="radio" name="sex" value="feMale" />FeMale
-								
+
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-2 col-sm-10 col-xs-10">DateOfBirth (dd/mm/yyyy)</div>
+								<div class="col-md-2 col-sm-10 col-xs-10">DateOfBirth
+									(dd/mm/yyyy)</div>
 
 								<div class="col-md-3 col-sm-10 col-xs-10">
 									<input type="text" class="form-control" name="date" />
@@ -65,9 +71,7 @@
 								<div class="col-md-3 col-sm-10 col-xs-10">MaritalStatus</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
 
-									<input type="radio" name="status" value="single" />Single
-									
-									<input
+									<input type="radio" name="status" value="single" />Single <input
 										type="radio" name="status" value="married" />Married
 								</div>
 							</div>
@@ -144,7 +148,7 @@
 							</div>
 						</div>
 						<div class="row">
-							<div class="col-md-2 col-sm-10 col-xs-10" >
+							<div class="col-md-2 col-sm-10 col-xs-10">
 								<label>Qualification</label>
 							</div>
 							<div class="col-md-1 col-sm-10 col-xs-10">
@@ -170,7 +174,8 @@
 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-1 col-sm-10 col-xs-10">Post-Graduation(if any)</div>
+								<div class="col-md-1 col-sm-10 col-xs-10">Post-Graduation(if
+									any)</div>
 								<div class="col-md-2 col-sm-10 col-xs-10">
 									<input type="text" class="form-control" name="pg_degree" />
 								</div>
@@ -219,7 +224,8 @@
 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-1 col-sm-10 col-xs-10">Higher Secondary (XII)</div>
+								<div class="col-md-1 col-sm-10 col-xs-10">Higher Secondary
+									(XII)</div>
 								<div class="col-md-2 col-sm-10 col-xs-10">
 									<input type="text" class="form-control" name="hs_degree" />
 								</div>
@@ -271,7 +277,8 @@
 						</div>
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-2 col-sm-10 col-xs-10">Total Work Experience</div>
+								<div class="col-md-2 col-sm-10 col-xs-10">Total Work
+									Experience</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
 									<select class="form-control" name="work_experience">
 										<option value="">Select</option>
@@ -287,7 +294,8 @@
 
 						<div class="form-group">
 							<div class="row">
-								<div class="col-md-2 col-sm-10 col-xs-10">Current Annual Salary(CTC)</div>
+								<div class="col-md-2 col-sm-10 col-xs-10">Current Annual
+									Salary(CTC)</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
 									<select name="ctc" class="form-control">
 										<option value="">Select</option>
@@ -446,7 +454,8 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-2 col-md-offset-1 col-sm-6 col-sm-offset-1 col-xs-6 col-xs-offset-1">
+							<div
+								class="col-md-2 col-md-offset-1 col-sm-6 col-sm-offset-1 col-xs-6 col-xs-offset-1">
 								<input type="submit" class="btn btn-primary form-control"
 									value="submit" />
 							</div>

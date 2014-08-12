@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Entity
 @Service("user")
-@Table(name = "registerUser")
+@Table(name = "userEx")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;

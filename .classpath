@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="/home/sysadmin/Anand/Spring/springjars/org.springframework.web.servlet-3.1.0.M2.jar"/>
 	<classpathentry kind="lib" path="/home/sysadmin/Anand/apache-tomcat-7.0.54/lib/jsp-api.jar"/>
 	<classpathentry kind="lib" path="/home/sysadmin/Anand/apache-tomcat-7.0.54/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/home/sysadmin/Downloads/spring-1.1.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

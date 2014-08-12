@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userDetails")
-@Table(name = "userDB")
+@Table(name = "userDBEx")
 public class UserDetails {
 	@Id
 	@GeneratedValue
@@ -38,8 +38,8 @@ public class UserDetails {
 	private String application_name;
 	private String currentCity;
 	
-	private int total_experience;
-	private long anual_ctc;
+	private String total_experience;
+	private String anual_ctc;
 	
 	
 
@@ -82,22 +82,23 @@ public class UserDetails {
 		this.mailingAddress = mailingAddress;
 	}
 
-	public int getTotal_experience() {
+	
+	public String getTotal_experience() {
 		return total_experience;
 	}
 
 
-	public void setTotal_experience(int total_experience) {
+	public void setTotal_experience(String total_experience) {
 		this.total_experience = total_experience;
 	}
 
 
-	public long getAnual_ctc() {
+	public String getAnual_ctc() {
 		return anual_ctc;
 	}
 
 
-	public void setAnual_ctc(long anual_ctc) {
+	public void setAnual_ctc(String anual_ctc) {
 		this.anual_ctc = anual_ctc;
 	}
 

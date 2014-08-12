@@ -3,11 +3,9 @@ package com.user.controller;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
@@ -21,6 +19,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.user.bean.AwardsAndAchievments;
@@ -28,12 +29,31 @@ import com.user.bean.User;
 import com.user.bean.UserAcademic;
 import com.user.bean.UserDetails;
 import com.user.bean.WorkingExperience;
+import com.user.file.FileUpLoad;
 import com.user.service.UserService;
 
 @Controller
 public class UserController {
 	@Autowired
 	private UserService userService;
+
+	@RequestMapping("fileUpload")
+	public ModelAndView onSubmit(HttpServletRequest pRequest,
+			HttpServletResponse pResponse, CommonsMultipartFile command)
+			throws ServletException, IOException {
+
+		System.out.println(command+"J");
+		
+		/*FileUpLoad file = (FileUpLoad)command;*/
+        System.out.println(command.getOriginalFilename()+"Hai");
+       	 
+		
+		String fileName = "";
+
+		
+
+		return null;
+	}
 
 	@RequestMapping("addUser")
 	public ModelAndView insertUSer(HttpServletRequest pRequest,
@@ -147,6 +167,7 @@ public class UserController {
 	public ModelAndView insertApplicationUserData(HttpServletRequest pRequest,
 			HttpServletResponse pResponse) throws ServletException,
 			IOException, ParseException {
+		String id = pRequest.getParameter("userId");
 		String userName = pRequest.getParameter("userName");
 		String gender = pRequest.getParameter("sex");
 		String dob = pRequest.getParameter("date");
@@ -162,6 +183,7 @@ public class UserController {
 		long landLineNumber = Long.parseLong(pRequest
 				.getParameter("landLineNumber"));
 		String photo_details = pRequest.getParameter("photo");
+		System.out.println(photo_details);
 		String application_name = pRequest.getParameter("app_name");
 		String user_city = pRequest.getParameter("current_city");
 
@@ -307,38 +329,39 @@ public class UserController {
 		userDetails.setPhoto_details(photo_details);
 		userDetails.setApplication_name(application_name);
 		userDetails.setCurrentCity(user_city);
-	    userDetails.setUserAcademic(s);
-		//userDetails.setAnual_ctc(Long.parseLong(pRequest.getParameter("ctc")));
-		//userDetails.setTotal_experience(Integer.parseInt(pRequest.getParameter("work_experience")));
+		userDetails.setUserAcademic(s);
+		userDetails.setAnual_ctc(pRequest.getParameter("ctc"));
+		userDetails.setTotal_experience(pRequest
+				.getParameter("work_experience"));
 
 		try {
 
-			UserDetails u = userService.create(userDetails);
-			System.out.println("first");
-			//int id = userService.userId(mailId);
-			System.out.println("s");
-			/*if (id != 0) {
+			if (id == null) {
+				UserDetails u = userService.create(userDetails);
+			} else {
+				int userId = Integer.parseInt(id);
+				userDetails.setId(userId);
+				userService.create(userDetails);
 
-				//userService.update(id, userAcademic);
-				System.out.println("t");
 			}
-*/
+
 		} catch (Exception e) {
 			System.out.print(e);
 		}
-		return new ModelAndView("userApplication");
+		return new ModelAndView("application");
 
 	}
 
-	@RequestMapping("application")
+	@RequestMapping(value = "/application", method = RequestMethod.POST)
 	public ModelAndView viewRedirect(HttpServletRequest pRequest,
 			HttpServletResponse pResponse) throws ServletException, IOException {
 
-		String choice = pRequest.getParameter("submit").trim();
-		String luserId=pRequest.getParameter("selectedUser");
-	int id=0;
-		if(luserId!=null)
-		 id = Integer.parseInt(luserId);
+		String choice = pRequest.getParameter("submit");
+		String luserId = pRequest.getParameter("id");
+		System.out.println(luserId);
+		int id = 0;
+		if (luserId != null)
+			id = Integer.parseInt(luserId);
 
 		System.out.println(id);
 
@@ -349,35 +372,24 @@ public class UserController {
 		if (choice.equals("Edit")) {
 
 			List<UserDetails> userList = userService.getUserDetails();
-			List userLi = new ArrayList();
+			// List userLi = new ArrayList();
 			UserDetails userDetails;
 			if (userList != null) {
 				Iterator<UserDetails> user = userList.iterator();
 				while (user.hasNext()) {
 					userDetails = user.next();
-				
-					if(userDetails.getId()==id){
-						return new ModelAndView("editApplication","user",userDetails);			
+
+					if (userDetails.getId() == id) {
+						return new ModelAndView("editApplication", "user",
+								userDetails);
 					}
-					
+
 				}
 
 			}
 
-			
-
 		}
 		return new ModelAndView("logIn");
 	}
-	
-	@RequestMapping("editData")
-	public ModelAndView editApplication(HttpServletRequest pRequest,HttpServletResponse pResponse)throws ServletException,IOException{
-	
-		
-		
-		return null;
-	}
-	
-	
 
 }

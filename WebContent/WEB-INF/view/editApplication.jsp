@@ -13,15 +13,41 @@
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<script>
+	function check() {
+
+		var gender = document.getElementsByName('sex');
+		var gend = document.getElementById('gender1');
+		var userstatus=document.getElementById("marstatus");
+		var status=document.getElementsByName("status");
+		if ((gender[0].value) == gend.value) {
+			document.getElementById('male').checked = true;
+		} else {
+			document.getElementById('female').checked = true;
+		}
+
+		if((status[0].value)==userstatus.value){
+			document.getElementById('single').checked=true;
+		}else{
+			document.getElementById('married').checked=true;
+		}
+		 
+	}
+</script>
+
+
 
 <title>Insert title here</title>
 </head>
-<body>
+
+<body onLoad="check()">
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 
 
 	<div class="container">
+
+
 		<div class="row">
 			<div class="pull-left" style="width: 200px">
 
@@ -36,8 +62,9 @@
 		<div class="row">
 			<div
 				class="col-md-10 col-md-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 col-xs-offset-1">
-				<form action="editData" method="post" style="width: 250"
+				<form action="addData" method="post" style="width: 250"
 					class="form-horizontal">
+					<input type="hidden" name="userId" value="${user.id}" />
 
 					<div class="row">
 						<div class="form-group">
@@ -59,8 +86,9 @@
 							<div class="row">
 								<div class="col-md-2 col-sm-10 col-xs-10">Gender</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="radio" name="sex" value="male" />Male <input
-										type="radio" name="sex" value="feMale" />FeMale
+									<input type="radio" id="male" name="sex" value="male" />Male <input
+										type="radio" id="female" name="sex" value="feMale" />FeMale <input
+										type="hidden" id="gender1" name="sex1" value="${user.gender}" />
 
 								</div>
 							</div>
@@ -77,8 +105,10 @@
 								<div class="col-md-3 col-sm-10 col-xs-10">MaritalStatus</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
 
-									<input type="radio" name="status" value="single" />Single <input
-										type="radio" name="status" value="married" />Married
+									<input type="radio" name="status" id="single"
+										value="single" />Single <input type="radio"
+										name="status" id="married" value="married" />Married
+								<input id="marstatus" name="mar" value="${user.maritalStatus}"/>
 								</div>
 							</div>
 						</div>
@@ -182,7 +212,7 @@
 								<label>Year Of Completion</label>
 							</div>
 							<div class="col-md-1 col-sm-10 col-xs-10">
-								<label>%/CGPA${user.userAcademic}</label>
+								<label>%/CGPA</label>
 							</div>
 
 						</div>
@@ -193,9 +223,9 @@
 							<div class="form-group">
 
 								<div class="row">
-									<div class="col-md-1 col-sm-10 col-xs-10">Post-Graduation(if
+									<div class="col-md-2 col-sm-10 col-xs-10">Post-Graduation(if
 										any)</div>
-									<div class="col-md-2 col-sm-10 col-xs-10">
+									<div class="col-md-1 col-sm-10 col-xs-10">
 										<input type="text" class="form-control" name="pg_degree"
 											value="${academic.pg_degree}" />
 									</div>
@@ -224,8 +254,8 @@
 
 							<div class="form-group">
 								<div class="row">
-									<div class="col-md-1 col-sm-10 col-xs-10">Graduation</div>
-									<div class="col-md-2 col-sm-10 col-xs-10">
+									<div class="col-md-2 col-sm-10 col-xs-10">Graduation</div>
+									<div class="col-md-1 col-sm-10 col-xs-10">
 										<input type="text" name="ug_degree" class="form-control"
 											value="${academic.ug_degree}" />
 									</div>
@@ -255,9 +285,9 @@
 
 							<div class="form-group">
 								<div class="row">
-									<div class="col-md-1 col-sm-10 col-xs-10">Higher
+									<div class="col-md-2 col-sm-10 col-xs-10">Higher
 										Secondary (XII)</div>
-									<div class="col-md-2 col-sm-10 col-xs-10">
+									<div class="col-md-1 col-sm-10 col-xs-10">
 										<input type="text" class="form-control" name="hs_degree"
 											value="${academic.hs_degree}" />
 									</div>
@@ -286,8 +316,8 @@
 
 							<div class="form-group">
 								<div class="row">
-									<div class="col-md-1 col-sm-10 col-xs-10">Secondary (X)</div>
-									<div class="col-md-2 col-sm-10 col-xs-10">
+									<div class="col-md-2 col-sm-10 col-xs-10">Secondary (X)</div>
+									<div class="col-md-1 col-sm-10 col-xs-10">
 										<input type="text" name="s_degree" class="form-control"
 											value="${academic.s_degree}" />
 									</div>
@@ -331,7 +361,7 @@
 										Experience</div>
 									<div class="col-md-3 col-sm-10 col-xs-10">
 										<select class="form-control" name="work_experience">
-											<option value="">Select</option>
+											<option value="${user.total_experience}">${user.total_experience}</option>
 											<option value="0-1y">0-1year</option>
 											<option value="1-3y">1-3years</option>
 											<option value="3-5y">3-5years</option>
@@ -348,7 +378,7 @@
 										Salary(CTC)</div>
 									<div class="col-md-3 col-sm-10 col-xs-10">
 										<select name="ctc" class="form-control">
-											<option value="">Select</option>
+											<option value="${user.anual_ctc}">${user.anual_ctc}</option>
 											<option value="0-1l">0-1lakh</option>
 											<option value="1-3l">1-3lakhs</option>
 											<option value="3-5l">3-5lakhs</option>
@@ -447,7 +477,7 @@
 												Honors</div>
 											<div class="col-md-7 col-sm-10 col-xs-10">
 												<input type="text" name="academic_honors"
-													class="form-control" value="${awards.academicHonors}"/>
+													class="form-control" value="${awards.academicHonors}" />
 											</div>
 
 										</div>
@@ -458,7 +488,7 @@
 											<div class="col-md-2 col-sm-10 col-xs-10"></div>
 											<div class="col-md-7 col-sm-10 col-xs-10">
 												<input type="text" name="ch_academic_honors"
-													class="form-control" value="${awards.ch_academicHonors}"/>
+													class="form-control" value="${awards.ch_academicHonors}" />
 											</div>
 										</div>
 									</div>
@@ -470,7 +500,7 @@
 											<div class="col-md-2 col-sm-10 col-xs-10">Extracurricular</div>
 											<div class="col-md-7 col-sm-10 col-xs-10">
 												<input type="text" name="extracurricular"
-													class="form-control" value="${awards.extracurricular}"/>
+													class="form-control" value="${awards.extracurricular}" />
 											</div>
 										</div>
 									</div>
@@ -481,7 +511,7 @@
 											<div class="col-md-2 col-sm-10 col-xs-10"></div>
 											<div class="col-md-7 col-sm-10 col-xs-10">
 												<input type="text" name="ch_extracurricular"
-													class="form-control" value="${awards.ch_extracurricular}"/>
+													class="form-control" value="${awards.ch_extracurricular}" />
 											</div>
 										</div>
 									</div>
@@ -493,7 +523,8 @@
 											<div class="col-md-2 col-sm-10 col-xs-10">Others
 												(Specify)</div>
 											<div class="col-md-7 col-sm-10 col-xs-10">
-												<input type="text" name="others" class="form-control" value="${awards.others}"/>
+												<input type="text" name="others" class="form-control"
+													value="${awards.others}" />
 											</div>
 										</div>
 									</div>
@@ -518,12 +549,14 @@
 							<div class="row">
 								<div class="col-md-2 col-sm-10 col-xs-10">CurrentCity</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="text" name="current_city" class="form-control" value="${user.currentCity}"/>
+									<input type="text" name="current_city" class="form-control"
+										value="${user.currentCity}" />
 								</div>
 								<div class="col-md-2 col-sm-10 col-xs-10">Application Name</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="text" name="app_name" class="form-control" value="${user.application_name}"/>
-									<input type="hidden" name="userId" value="${user.id}"/>
+									<input type="text" name="app_name" class="form-control"
+										value="${user.application_name}" /> <input type="hidden"
+										name="userId" value="${user.id}" />
 								</div>
 							</div>
 						</div>

@@ -12,14 +12,12 @@
 <title>Insert title here</title>
 </head>
 <script>
-	function edit(userId) {
-
-		alert(userId);
-		document.getElementById('selectedUser').value= userId;
-       // alert(document.getElementById('userId').value+"Hai");
-		document.forms['edit'].submit();
-
-	}
+	function edit(id) {
+		alert(id);         
+		document.forms[0].action="application?id="+id;
+		         
+		         document.forms[0].submit();
+     }
 </script>
 
 <body>
@@ -28,8 +26,8 @@
 
 
 	<div class="container">
-		<form action="application" id="edit">
-		<input type="hidden" id="selectedUser"/>
+		<form id="edit" method="POST" action="application">
+		<input type="hidden" id="selectedUser" value='' />
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-4">
@@ -46,8 +44,7 @@
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-3">${userList.userName}</div>
-						<input type="hidden" id="userId${userList.id}"
-							value="${userList.id}" />
+						<input type="hidden" id="${userList.id}" value="${userList.id}" />
 						<div class="col-md-3">
 							<input type="submit" class="btn btn-primary" value="Edit"
 								name="submit" onClick="edit(${userList.id})" />

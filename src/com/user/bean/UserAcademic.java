@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userAcademy")
-@Table(name = "academyDB")
+@Table(name = "academyDBEx")
 public class UserAcademic {
 	@Id
 	@GeneratedValue

@@ -12,6 +12,7 @@
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
 <title>Insert title here</title>
+
 </head>
 <body>
 	<script src="js/jquery-1.11.1.min.js"></script>
@@ -19,7 +20,7 @@
 
 
 	<div class="container">
-		<div class="row">
+	    <div class="row">
 			<div class="pull-left" style="width: 200px">
 				<img src="img/greatLakes.jpg" class="img-thumbnail" />
 			</div>
@@ -32,21 +33,24 @@
 		<div class="row">
 			<div
 				class="col-md-10 col-md-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 col-xs-offset-1">
+				${message}
+				
 				<form action="addData" method="post" style="width: 250"
-					class="form-horizontal">
+					class="form-horizontal" enctype="multipart/form-data">
 
 					<div class="row">
 						<div class="form-group">
 							<div class="row">
 								<div class="col-md-2 col-sm-10 col-xs-10">Name</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="text" class="form-control" name="userName" />
+									<input type="text" class="form-control" id="userName" name="userName" onSelect="nameCheck()"/>
 								</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">UpLoad your
 									Photo</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="file" name="photo" />
+									<input type="file" name="file" />
 								</div>
+								
 							</div>
 						</div>
 
@@ -457,7 +461,7 @@
 							<div
 								class="col-md-2 col-md-offset-1 col-sm-6 col-sm-offset-1 col-xs-6 col-xs-offset-1">
 								<input type="submit" class="btn btn-primary form-control"
-									value="submit" />
+									value="submit"/>
 							</div>
 						</div>
 

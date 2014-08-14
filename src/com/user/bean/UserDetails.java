@@ -1,5 +1,6 @@
 package com.user.bean;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,7 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapKey;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userDetails")
-@Table(name = "userDBEx")
+@Table(name = "userDBExx")
 public class UserDetails {
 	@Id
 	@GeneratedValue
@@ -37,16 +37,16 @@ public class UserDetails {
 	private String photo_details;
 	private String application_name;
 	private String currentCity;
-	
 	private String total_experience;
 	private String anual_ctc;
-	
+	private Date date;
 	
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER,cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
 	@JoinColumn(name = "user_id")
 	private Set<UserAcademic> userAcademic;
 
+	
 	
 	
 	
@@ -59,6 +59,16 @@ public class UserDetails {
 	}
 */
 	
+
+	public Date getDate() {
+		return date;
+	}
+
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
 
 	public String getMailingAddress() {
 		return mailingAddress;

@@ -8,14 +8,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.stereotype.Service;
 
 @Entity
 @Service("userAcademy")
-@Table(name = "academyDBEx")
+@Table(name = "academyDBExx")
 public class UserAcademic {
 	@Id
 	@GeneratedValue
@@ -106,7 +106,7 @@ public class UserAcademic {
 	String s_year;
 	String s_cgpa;
 	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
 	@JoinColumn(name = "ex_id")
 	private Set<WorkingExperience> work_experience;
 

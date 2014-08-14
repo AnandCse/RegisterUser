@@ -1,16 +1,22 @@
 package com.user.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -18,10 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.user.bean.AwardsAndAchievments;
@@ -29,30 +37,68 @@ import com.user.bean.User;
 import com.user.bean.UserAcademic;
 import com.user.bean.UserDetails;
 import com.user.bean.WorkingExperience;
-import com.user.file.FileUpLoad;
 import com.user.service.UserService;
 
 @Controller
 public class UserController {
 	@Autowired
 	private UserService userService;
+	
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String viewLogin(Map<String, Object> model) {
+        User user = new User();
+        model.put("userForm", user);
+        return "LoginForm";
+    }
+ 
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public String doLogin(@Valid @ModelAttribute("userForm") User userForm,
+            BindingResult result, Map<String, Object> model) {
+ 
+        if (result.hasErrors()) {
+            return "LoginForm";
+        }
+ 
+        return "LoginSuccess";
+    }
+	
+	
+	
+	
 
-	@RequestMapping("fileUpload")
-	public ModelAndView onSubmit(HttpServletRequest pRequest,
-			HttpServletResponse pResponse, CommonsMultipartFile command)
-			throws ServletException, IOException {
+	@RequestMapping("/fileUpload")
+	public ModelAndView uploadMultipart(HttpServletRequest request,
+			HttpServletResponse response, @RequestParam("name") String name,
+			@RequestParam("file") MultipartFile file) {
 
-		System.out.println(command+"J");
-		
-		/*FileUpLoad file = (FileUpLoad)command;*/
-        System.out.println(command.getOriginalFilename()+"Hai");
-       	 
-		
-		String fileName = "";
+		System.out.print("Hai" + file.isEmpty());
 
-		
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+				String rootPath = System.getProperty("catalina.home");
+				System.out.println(rootPath);
+				File dir = new File(rootPath + File.separator + "tmpFiles");
+				if (!dir.exists())
+					dir.mkdirs();
+				System.out.println(File.separator);
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + name);
+				System.out.println(dir.getAbsolutePath() + File.separator
+						+ name);
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
 
-		return null;
+			} catch (Exception e) {
+				System.out.print(e);
+			}
+		}
+
+		return new ModelAndView("application");
 	}
 
 	@RequestMapping("addUser")
@@ -163,10 +209,12 @@ public class UserController {
 		return new ModelAndView("logIn");
 	}
 
-	@RequestMapping("addData")
+	@RequestMapping(value = "/addData", method = RequestMethod.POST)
 	public ModelAndView insertApplicationUserData(HttpServletRequest pRequest,
-			HttpServletResponse pResponse) throws ServletException,
+			HttpServletResponse pResponse,
+			@RequestParam("file") MultipartFile file) throws ServletException,
 			IOException, ParseException {
+		System.out.println("Hi");
 		String id = pRequest.getParameter("userId");
 		String userName = pRequest.getParameter("userName");
 		String gender = pRequest.getParameter("sex");
@@ -176,17 +224,88 @@ public class UserController {
 		String nationality = pRequest.getParameter("nationality");
 		String mailingAddress = pRequest.getParameter("mailingAddress");
 		String mailId = pRequest.getParameter("mailId");
-		long mob_num = Long.parseLong(pRequest.getParameter("mobileNumber"));
+		String mb_num=pRequest.getParameter("mobileNumber");
+		//long mob_num = Long.parseLong(mb_num);
 		String maritialStatus = pRequest.getParameter("status");
 		String fatherJob = pRequest.getParameter("father'sJob");
 		String motherJob = pRequest.getParameter("mother'sJob");
-		long landLineNumber = Long.parseLong(pRequest
-				.getParameter("landLineNumber"));
-		String photo_details = pRequest.getParameter("photo");
+		String landNum=pRequest.getParameter("landLineNumber");
+		//long landLineNumber = Long.parseLong(landNum);
+		String photo_details = file.getOriginalFilename();
 		System.out.println(photo_details);
 		String application_name = pRequest.getParameter("app_name");
 		String user_city = pRequest.getParameter("current_city");
+		
+		
+		
+		
+		
+		
+		
+		
+	/* String msg=null;
+		
+		if (StringUtils.isBlank(userName)) {
+			msg = "Please Enter User Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(dob)) {
+			msg = "Please Enter your Date of Birth";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(father_name)) {
+			msg = "Please Enter your Father name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(mother_name)) {
+			msg = "Please Enter your Mother Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(nationality)) {
+			msg = "Please Enter your Nation Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(mailId)) {
+			msg = "Please Enter your mailId";
+			return new ModelAndView("userApplication", "message", msg);
+		}else if (StringUtils.isBlank(mailingAddress)) {
+			msg = "Please Enter your address";
+			return new ModelAndView("userApplication", "message", msg);
+		}else if(StringUtils.isBlank(landNum)){
+			msg = "Please Enter your Land line number";
+			return new ModelAndView("userApplication", "message", msg);
+		}else if(photo_details==null){
+			msg = "Please Upload ur photo";
+			return new ModelAndView("userApplication", "message", msg);
+			
+		}else if(StringUtils.isBlank(application_name)){
+			msg="Please enter application name";
+			return new ModelAndView("userApplication","message",msg);
+		}else if(StringUtils.isBlank(user_city)){
+			msg="Please enter your city";
+			return new ModelAndView("userApplication","message",msg);
+		}
+		
+		
+		
+		else if (!StringUtils.isBlank(mailId)) {
+			String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+			Boolean token = mailingAddress.matches(regex);
+			if (!token) {
+				msg = "EmailId Format is Wrong";
+				return new ModelAndView("userApplication", "message", msg);
+			} else if (!NumberUtils.isNumber(mb_num)) {
+				msg = "Please enter number only";
+				return new ModelAndView("userApplication", "message", msg);
 
+			}else if(!NumberUtils.isNumber(landNum)){
+				msg = "Please enter number only";
+				return new ModelAndView("userApplication", "message", msg);
+
+			}
+		}
+*/
+
+		
+		
+		
+		long mob_num = Long.parseLong(mb_num);
+		long landLineNumber = Long.parseLong(landNum);
 		ApplicationContext info = new ClassPathXmlApplicationContext("app.xml");
 		UserDetails userDetails = (UserDetails) info.getBean("userDetails");
 		UserAcademic userAcademic = (UserAcademic) info.getBean("userAcademic");
@@ -331,20 +450,60 @@ public class UserController {
 		userDetails.setCurrentCity(user_city);
 		userDetails.setUserAcademic(s);
 		userDetails.setAnual_ctc(pRequest.getParameter("ctc"));
+		userDetails.setDate(new Date());
 		userDetails.setTotal_experience(pRequest
 				.getParameter("work_experience"));
 
 		try {
 
+			
 			if (id == null) {
 				UserDetails u = userService.create(userDetails);
+                
+				if (!file.isEmpty()) {
+					byte[] b = file.getBytes();
+					String root = System.getProperty("catalina.home");
+					File f = null;
+					f = new File(root + File.separator + "image");
+					System.out.println(root + File.separator + u.getId()
+							+ photo_details + "id22");
+
+					if (!f.exists()) {
+						f.mkdirs();
+					}
+					File ne = new File(f.getAbsolutePath() + File.separator
+							+ u.getPhoto_details() + u.getId());
+					BufferedOutputStream str = new BufferedOutputStream(
+							new FileOutputStream(ne));
+					str.write(b);
+					str.close();
+
+				}
 			} else {
 				int userId = Integer.parseInt(id);
 				userDetails.setId(userId);
-				userService.create(userDetails);
+				UserDetails u = userService.create(userDetails);
+				byte[] b = file.getBytes();
+				String root = System.getProperty("catalina.home");
+				File f = null;
+					f = new File(root + File.separator + "image");
+					System.out.println(root + File.separator + u.getId()
+							+ photo_details + "id22");
 
+					if (!f.exists()) {
+						f.mkdirs();
+					}
+					File ne = new File(f.getAbsolutePath() + File.separator
+							+ u.getPhoto_details() + userDetails.getId());
+					BufferedOutputStream str = new BufferedOutputStream(
+							new FileOutputStream(ne));
+					str.write(b);
+					str.close();
+
+			     
 			}
-
+			List<UserDetails> user=userService.getUserDetails();
+			return new ModelAndView("application","user",user);
 		} catch (Exception e) {
 			System.out.print(e);
 		}
@@ -378,8 +537,49 @@ public class UserController {
 				Iterator<UserDetails> user = userList.iterator();
 				while (user.hasNext()) {
 					userDetails = user.next();
-
+            
 					if (userDetails.getId() == id) {
+									
+						/*String name=userDetails.getPhoto_details();
+					    //pRequest.setAttribute("image", name);
+						System.out.print(name);
+						
+						File f=new File(name);
+						System.out.println("FilePath"+f.getAbsolutePath());
+						String root=System.getProperty("catalina.home");
+	                    System.out.println(root);					
+						
+	                    System.out.println(root+File.separator+"image"+name+id);
+	                    String url=root+File.separator+name+id;
+	                    File f1=new File(url);
+	                    System.out.println(f1);
+	                    FileInputStream fin=new FileInputStream(f1);
+	                    
+	                    pRequest.setAttribute("url", url);
+	                    
+	                    System.out.print(fin);
+						
+*/						return new ModelAndView("editApplication", "user",
+								userDetails);
+					}
+
+				}
+
+			}
+
+		}
+		
+	/*	if(choice.equals("Delete")){
+			List<UserDetails> userList = userService.getUserDetails();
+			// List userLi = new ArrayList();
+			UserDetails userDetails;
+			if (userList != null) {
+				Iterator<UserDetails> user = userList.iterator();
+				while (user.hasNext()) {
+					userDetails = user.next();
+            
+					if (userDetails.getId() == id) {
+						userService.remove(userDetails);					
 						return new ModelAndView("editApplication", "user",
 								userDetails);
 					}
@@ -389,6 +589,9 @@ public class UserController {
 			}
 
 		}
+			
+*/		
+		
 		return new ModelAndView("logIn");
 	}
 

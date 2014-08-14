@@ -31,8 +31,16 @@
 		}else{
 			document.getElementById('married').checked=true;
 		}
-		 
+		
+		
+		var im=document.getElementById('img').value;
+		document.getElementById('fi').value=im;
+		
+		
+		alert(document.getElementById('fi').value); 
 	}
+	
+	
 </script>
 
 
@@ -63,7 +71,7 @@
 			<div
 				class="col-md-10 col-md-offset-1 col-sm-10 col-xs-offset-1 col-xs-10 col-xs-offset-1">
 				<form action="addData" method="post" style="width: 250"
-					class="form-horizontal">
+					class="form-horizontal" enctype="multipart/form-data">
 					<input type="hidden" name="userId" value="${user.id}" />
 
 					<div class="row">
@@ -77,7 +85,9 @@
 								<div class="col-md-3 col-sm-10 col-xs-10">UpLoad your
 									Photo</div>
 								<div class="col-md-3 col-sm-10 col-xs-10">
-									<input type="file" name="photo" value="${user.photo_details}" />
+									<input type="file" id="fi" name="file"/>
+									<input type="hidden" value='<%=request.getAttribute("url")%>' id="img" name="img"/>
+									
 								</div>
 							</div>
 						</div>

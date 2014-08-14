@@ -8,11 +8,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "experienceDBEx")
+@Table(name = "experienceDBExx")
 public class WorkingExperience {
 
 	@Id
@@ -31,7 +31,7 @@ public class WorkingExperience {
 	String b_fr_date;
 	String b_to_date;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER,cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
 	@JoinColumn(name = "award_id")
 	private Set<AwardsAndAchievments> awards;
 

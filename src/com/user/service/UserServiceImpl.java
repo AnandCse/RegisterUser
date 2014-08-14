@@ -48,7 +48,10 @@ public class UserServiceImpl implements UserService {
 		return userDataDB.getUser();
 		
 	}
-	
+	@Transactional(readOnly = false)
+	public UserDetails remove(UserDetails userDetails){
+		return userDataDB.remove(userDetails);
+	}
 	
 	public Map upDate(Map userAcademy){
 		return  null;

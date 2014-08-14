@@ -13,7 +13,6 @@
 </head>
 <script>
 	function edit(id) {
-		alert(id);         
 		document.forms[0].action="application?id="+id;
 		         
 		         document.forms[0].submit();
@@ -27,27 +26,50 @@
 
 	<div class="container">
 		<form id="edit" method="POST" action="application">
-		<input type="hidden" id="selectedUser" value='' />
+			<input type="hidden" id="selectedUser" value='' />
 			<div class="form-group">
 				<div class="row">
 					<div class="col-md-4 col-md-offset-4">
 						<h3>UserApplication Details</h3>
 					</div>
-					<div class="col-md-4 pull-right">
+					<div class="col-md-4">
 						<input type="submit" class="btn btn-primary" value="Add"
 							name="submit" />
 					</div>
 				</div>
 			</div>
 
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-3">
+						<label>Name</label>
+					</div>
+
+					<div class="col-md-3">
+						<label>Date</label>
+					</div>
+
+
+				</div>
+			</div>
+
+
 			<c:forEach items="${user}" var="userList" varStatus="status">
 				<div class="form-group">
 					<div class="row">
 						<div class="col-md-3">${userList.userName}</div>
 						<input type="hidden" id="${userList.id}" value="${userList.id}" />
+
+						<div class="col-md-3">${userList.date}</div>
+
+
+
+
 						<div class="col-md-3">
 							<input type="submit" class="btn btn-primary" value="Edit"
 								name="submit" onClick="edit(${userList.id})" />
+
+
 						</div>
 					</div>
 				</div>

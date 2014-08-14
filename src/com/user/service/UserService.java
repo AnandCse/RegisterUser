@@ -15,4 +15,5 @@ public interface UserService {
 	UserDetails create(UserDetails userDetails);
 	public int userId(String mailId);
 	UserAcademic update(int id,UserAcademic userAcademic);
+    UserDetails remove(UserDetails userDetails);
 }

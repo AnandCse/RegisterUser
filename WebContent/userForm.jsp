@@ -18,8 +18,8 @@
 		<form action="addUser" method="post">
 			<div class="form-group">
 				<div class="row">
-					<div class="col-md-3 col-md-offset-3">EmailId</div>
-					<div class="col-md-3">
+					<div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-3 col-xs-offset-3">EmailId</div>
+					<div class="col-md-3 col-sm-3 col-xs-3">
 						<input type="text" class="form-control" name="emailId" />
 					</div>
 				</div>
@@ -27,8 +27,8 @@
 			<div class="form-group">
 
 				<div class="row">
-					<div class="col-md-3 col-md-offset-3">PhoneNumber</div>
-					<div class="col-md-3">
+					<div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-3 col-xs-offset-3">PhoneNumber</div>
+					<div class="col-md-3 col-sm-3 col-xs-3">
 						<input type="text" class="form-control" name="phoneNumber" />
 					</div>
 				</div>
@@ -37,8 +37,8 @@
 			<div class="form-group">
 
 				<div class="row">
-					<div class="col-md-3 col-md-offset-3">PassWord</div>
-					<div class="col-md-3">
+					<div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-3 col-xs-offset-3">EmailId</div>
+					<div class="col-md-3 col-sm-3 col-xs-3">
 						<input type="password" name="password" class="form-control" />
 					</div>
 				</div>
@@ -47,8 +47,8 @@
 			<div class="form-group">
 
 				<div class="row">
-					<div class="col-md-3 col-md-offset-3">Re-EnterPassWord</div>
-					<div class="col-md-3">
+					<div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-3 col-xs-offset-3">EmailId</div>
+					<div class="col-md-3 col-sm-3 col-xs-3">
 						<input type="password" name="repassword" class="form-control" />
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 			<div class="form-group">
 
 				<div class="row">
-					<div class="col-md-3 col-md-offset-3">
+					<div class="col-md-3 col-md-offset-3 col-sm-3 col-sm-offset-3 col-xs-3 col-xs-offset-3">EmailId</div>
 						<input type="submit" class="btn btn-primary" value="Register" />
 					</div>
 					<div class="col-md-3">
@@ -67,10 +67,11 @@
 
 		</form>
 	</div>
-
  --%>
+ 
+ <%@include file ="WEB-INF/view/userForm.jsp" %>
 
-	 <form action="addUser" method="post">
+	<%--  <form action="addUser" method="post">
 		<table>
 			<tr>
 			<th>${message} </th>
@@ -96,6 +97,6 @@
 				<td><input type="submit" value="clear" name="clear"/></td>
 			</tr>
 		</table>
-	</form> 
+	</form> --%> 
 </body>
 </html>

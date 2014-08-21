@@ -37,8 +37,6 @@ public class UserDetails {
 	private String photo_details;
 	private String application_name;
 	private String currentCity;
-	private String total_experience;
-	private String anual_ctc;
 	private Date date;
 	
 
@@ -93,25 +91,7 @@ public class UserDetails {
 	}
 
 	
-	public String getTotal_experience() {
-		return total_experience;
-	}
-
-
-	public void setTotal_experience(String total_experience) {
-		this.total_experience = total_experience;
-	}
-
-
-	public String getAnual_ctc() {
-		return anual_ctc;
-	}
-
-
-	public void setAnual_ctc(String anual_ctc) {
-		this.anual_ctc = anual_ctc;
-	}
-
+	
 
 	public Set<UserAcademic> getUserAcademic() {
 		return userAcademic;

@@ -43,29 +43,24 @@ import com.user.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
-	
+
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String viewLogin(Map<String, Object> model) {
-        User user = new User();
-        model.put("userForm", user);
-        return "LoginForm";
-    }
- 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String doLogin(@Valid @ModelAttribute("userForm") User userForm,
-            BindingResult result, Map<String, Object> model) {
- 
-        if (result.hasErrors()) {
-            return "LoginForm";
-        }
- 
-        return "LoginSuccess";
-    }
-	
-	
-	
-	
+	public String viewLogin(Map<String, Object> model) {
+		User user = new User();
+		model.put("userForm", user);
+		return "LoginForm";
+	}
+
+	@RequestMapping(value = "/test", method = RequestMethod.POST)
+	public String doLogin(@Valid @ModelAttribute("userForm") User userForm,
+			BindingResult result, Map<String, Object> model) {
+
+		if (result.hasErrors()) {
+			return "LoginForm";
+		}
+
+		return "LoginSuccess";
+	}
 
 	@RequestMapping("/fileUpload")
 	public ModelAndView uploadMultipart(HttpServletRequest request,
@@ -142,7 +137,19 @@ public class UserController {
 			msg = "PassWord doesn't Match";
 			return new ModelAndView("userForm", "message", msg);
 		} else {
-
+            boolean token=false;
+			List userList=userService.getUser();
+			Iterator iter=userList.iterator();
+			while(iter.hasNext()){
+				User user=(User)iter.next();
+				if(user.getMailid().equalsIgnoreCase(mailId)){
+					msg="User is already exists";
+					token=true;
+					return new ModelAndView("userForm","message",msg);
+				}
+			}
+			
+			if(!token){
 			ApplicationContext info = new ClassPathXmlApplicationContext(
 					"app.xml");
 			User user = (User) info.getBean("user");
@@ -153,6 +160,8 @@ public class UserController {
 
 			userService.create(user);
 			return new ModelAndView("logIn");
+			}
+			return new ModelAndView("userForm");
 		}
 	}
 
@@ -224,27 +233,66 @@ public class UserController {
 		String nationality = pRequest.getParameter("nationality");
 		String mailingAddress = pRequest.getParameter("mailingAddress");
 		String mailId = pRequest.getParameter("mailId");
-		String mb_num=pRequest.getParameter("mobileNumber");
-		//long mob_num = Long.parseLong(mb_num);
+		String mb_num = pRequest.getParameter("mobileNumber");
+		// long mob_num = Long.parseLong(mb_num);
 		String maritialStatus = pRequest.getParameter("status");
 		String fatherJob = pRequest.getParameter("father'sJob");
 		String motherJob = pRequest.getParameter("mother'sJob");
-		String landNum=pRequest.getParameter("landLineNumber");
-		//long landLineNumber = Long.parseLong(landNum);
+		String landNum = pRequest.getParameter("landLineNumber");
+		// long landLineNumber = Long.parseLong(landNum);
 		String photo_details = file.getOriginalFilename();
+		System.out.println(photo_details);
 		System.out.println(photo_details);
 		String application_name = pRequest.getParameter("app_name");
 		String user_city = pRequest.getParameter("current_city");
+
+		String pg_degree = pRequest.getParameter("pg_degree");
+		String pg_cgpa = pRequest.getParameter("pg_percentage");
+		String pg_discipline = pRequest.getParameter("pg_discipline");
+		String pg_school = pRequest.getParameter("pg_school");
+		String pg_university = pRequest.getParameter("pg_university");
+		String pg_year = pRequest.getParameter("pg_passedOut");
+
+		String ug_degree = pRequest.getParameter("ug_degree");
+		String ug_cgpa = pRequest.getParameter("ug_percentage");
+		String ug_discipline = pRequest.getParameter("ug_discipline");
+		String ug_school = pRequest.getParameter("ug_school");
+		String ug_university = pRequest.getParameter("ug_university");
+		String ug_year = pRequest.getParameter("ug_passedOut");
+
+		String hs_degree = pRequest.getParameter("hs_degree");
+		String hs_cgpa = pRequest.getParameter("hs_percentage");
+		String hs_discipline = pRequest.getParameter("hs_discipline");
+		String hs_school = pRequest.getParameter("hs_school");
+		String hs_university = pRequest.getParameter("hs_university");
+		String hs_year = pRequest.getParameter("hs_passedOut");
+
+		String s_degree = pRequest.getParameter("s_degree");
+		String s_cgpa = pRequest.getParameter("s_percentage");
+		String s_discipline = pRequest.getParameter("s_discipline");
+		String s_school = pRequest.getParameter("s_school");
+		String s_university = pRequest.getParameter("s_university");
+		String s_year = pRequest.getParameter("s_passedOut");
+
 		
+		if(id!=null){
+			int userId=Integer.parseInt(id);
+			if(photo_details==""||photo_details==null||photo_details.equals(null)){
+				List u=userService.getUserDetails();
+				Iterator iter=u.iterator();
+				UserDetails use=null;
+				while(iter.hasNext()){
+					use=(UserDetails)iter.next();
+					if(use.getId()==userId){
+						photo_details=use.getPhoto_details();
+					
+					System.out.println(use.getPhoto_details());}
+				}
+			}
+		}
 		
-		
-		
-		
-		
-		
-		
-	/* String msg=null;
-		
+		String msg = null;
+
 		if (StringUtils.isBlank(userName)) {
 			msg = "Please Enter User Name";
 			return new ModelAndView("userApplication", "message", msg);
@@ -263,29 +311,27 @@ public class UserController {
 		} else if (StringUtils.isBlank(mailId)) {
 			msg = "Please Enter your mailId";
 			return new ModelAndView("userApplication", "message", msg);
-		}else if (StringUtils.isBlank(mailingAddress)) {
+		} else if (StringUtils.isBlank(mailingAddress)) {
 			msg = "Please Enter your address";
 			return new ModelAndView("userApplication", "message", msg);
-		}else if(StringUtils.isBlank(landNum)){
+		} else if (StringUtils.isBlank(landNum)) {
 			msg = "Please Enter your Land line number";
 			return new ModelAndView("userApplication", "message", msg);
-		}else if(photo_details==null){
+		} else if (photo_details == null) {
 			msg = "Please Upload ur photo";
 			return new ModelAndView("userApplication", "message", msg);
-			
-		}else if(StringUtils.isBlank(application_name)){
-			msg="Please enter application name";
-			return new ModelAndView("userApplication","message",msg);
-		}else if(StringUtils.isBlank(user_city)){
-			msg="Please enter your city";
-			return new ModelAndView("userApplication","message",msg);
+
+		} else if (StringUtils.isBlank(application_name)) {
+			msg = "Please enter application name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(user_city)) {
+			msg = "Please enter your city";
+			return new ModelAndView("userApplication", "message", msg);
 		}
-		
-		
-		
+
 		else if (!StringUtils.isBlank(mailId)) {
 			String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-			Boolean token = mailingAddress.matches(regex);
+			Boolean token = mailId.matches(regex);
 			if (!token) {
 				msg = "EmailId Format is Wrong";
 				return new ModelAndView("userApplication", "message", msg);
@@ -293,13 +339,86 @@ public class UserController {
 				msg = "Please enter number only";
 				return new ModelAndView("userApplication", "message", msg);
 
-			}else if(!NumberUtils.isNumber(landNum)){
+			} else if (!NumberUtils.isNumber(landNum)) {
 				msg = "Please enter number only";
 				return new ModelAndView("userApplication", "message", msg);
 
 			}
 		}
-*/
+
+		// Academic
+
+		if (StringUtils.isBlank(ug_degree)) {
+			msg = "Please Enter Your Undergraduate Degree";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(ug_cgpa)) {
+			msg = "Please Enter Your Undergraduate Percentage";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(ug_discipline)) {
+			msg = "Please Enter Your Undergraduate Discipline";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(ug_school)) {
+			msg = "Please Enter Your College Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(ug_university)) {
+			msg = "Please Enter Your University Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(ug_year)) {
+			msg = "Please Enter Your PassedOut Year";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (!NumberUtils.isNumber(ug_year)) {
+			msg = "Please enter number only in year";
+			return new ModelAndView("userApplication", "message", msg);
+
+		}
+
+		if (StringUtils.isBlank(hs_degree)) {
+			msg = "Please Enter Your Higher Secondary field";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(hs_cgpa)) {
+			msg = "Please Enter Your Higher Secondary Percentage";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(hs_discipline)) {
+			msg = "Please Enter Your Higher Secondary Discipline";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(hs_school)) {
+			msg = "Please Enter Your Higher Secondary School Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(hs_university)) {
+			msg = "Please Enter Your Higher Secondary Board Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(hs_year)) {
+			msg = "Please Enter Your Higher Secondary PassedOut Year";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (!NumberUtils.isNumber(hs_year)) {
+			msg = "Please enter number only in Higher Secondary PassedOut Year";
+			return new ModelAndView("userApplication", "message", msg);
+
+		}
+
+		if (StringUtils.isBlank(s_degree)) {
+			msg = "Please Enter Your  SSLC field";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(s_cgpa)) {
+			msg = "Please Enter Your SSLC Percentage";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(s_discipline)) {
+			msg = "Please Enter Your SSLC Discipline";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(s_school)) {
+			msg = "Please Enter Your SSLC School Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(s_university)) {
+			msg = "Please Enter Your SSLC Board Name";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (StringUtils.isBlank(s_year)) {
+			msg = "Please Enter Your SSLC PassedOut Year";
+			return new ModelAndView("userApplication", "message", msg);
+		} else if (!NumberUtils.isNumber(s_year)) {
+			msg = "Please enter number only in SSLC PassedOut Year";
+			return new ModelAndView("userApplication", "message", msg);
+
+		}
 
 		
 		
@@ -315,35 +434,129 @@ public class UserController {
 		AwardsAndAchievments awards = (AwardsAndAchievments) info
 				.getBean("awards_achievments");
 
-		userAcademic.setPg_cgpa(pRequest.getParameter("pg_percentage"));
-		userAcademic.setPg_degree(pRequest.getParameter("pg_degree"));
-		userAcademic.setPg_discipline(pRequest.getParameter("pg_discipline"));
-		userAcademic.setPg_school(pRequest.getParameter("pg_school"));
-		userAcademic.setPg_university(pRequest.getParameter("pg_university"));
-		userAcademic.setPg_year(pRequest.getParameter("pg_passedOut"));
+		userAcademic.setPg_cgpa(pg_cgpa);
+		userAcademic.setPg_degree(pg_degree);
+		userAcademic.setPg_discipline(pg_discipline);
+		userAcademic.setPg_school(pg_school);
+		userAcademic.setPg_university(pg_university);
+		userAcademic.setPg_year(pg_year);
 
-		userAcademic.setUg_cgpa(pRequest.getParameter("ug_percentage"));
-		userAcademic.setUg_degree(pRequest.getParameter("ug_degree"));
-		userAcademic.setUg_discipline(pRequest.getParameter("ug_discipline"));
-		userAcademic.setUg_school(pRequest.getParameter("ug_school"));
-		userAcademic.setUg_university(pRequest.getParameter("ug_university"));
-		userAcademic.setUg_year(pRequest.getParameter("ug_passedOut"));
+		userAcademic.setUg_cgpa(ug_cgpa);
+		userAcademic.setUg_degree(ug_degree);
+		userAcademic.setUg_discipline(ug_discipline);
+		userAcademic.setUg_school(ug_school);
+		userAcademic.setUg_university(ug_university);
+		userAcademic.setUg_year(ug_year);
 
-		userAcademic.setHs_cgpa(pRequest.getParameter("hs_percentage"));
-		userAcademic.setHs_degree(pRequest.getParameter("hs_degree"));
-		userAcademic.setHs_discipline(pRequest.getParameter("hs_discipline"));
-		userAcademic.setHs_school(pRequest.getParameter("hs_school"));
-		userAcademic.setHs_university(pRequest.getParameter("hs_university"));
-		userAcademic.setHs_year(pRequest.getParameter("hs_passedOut"));
+		userAcademic.setHs_cgpa(hs_cgpa);
+		userAcademic.setHs_degree(hs_degree);
+		userAcademic.setHs_discipline(hs_discipline);
+		userAcademic.setHs_school(hs_school);
+		userAcademic.setHs_university(hs_university);
+		userAcademic.setHs_year(hs_year);
 
-		userAcademic.setS_cgpa(pRequest.getParameter("s_percentage"));
-		userAcademic.setS_degree(pRequest.getParameter("s_degree"));
-		userAcademic.setS_discipline(pRequest.getParameter("s_discipline"));
-		userAcademic.setS_school(pRequest.getParameter("s_school"));
-		userAcademic.setS_university(pRequest.getParameter("s_university"));
-		userAcademic.setS_year(pRequest.getParameter("s_passedOut"));
+		userAcademic.setS_cgpa(s_cgpa);
+		userAcademic.setS_degree(s_degree);
+		userAcademic.setS_discipline(s_discipline);
+		userAcademic.setS_school(s_school);
+		userAcademic.setS_university(s_university);
+		userAcademic.setS_year(s_year);
 
-		Set<UserAcademic> s = new HashSet<UserAcademic>();
+		/*
+		 * String msg=null;
+		 * 
+		 * if (StringUtils.isBlank(userName)) { msg = "Please Enter User Name";
+		 * return new ModelAndView("userApplication", "message", msg); } else if
+		 * (StringUtils.isBlank(dob)) { msg = "Please Enter your Date of Birth";
+		 * return new ModelAndView("userApplication", "message", msg); } else if
+		 * (StringUtils.isBlank(father_name)) { msg =
+		 * "Please Enter your Father name"; return new
+		 * ModelAndView("userApplication", "message", msg); } else if
+		 * (StringUtils.isBlank(mother_name)) { msg =
+		 * "Please Enter your Mother Name"; return new
+		 * ModelAndView("userApplication", "message", msg); } else if
+		 * (StringUtils.isBlank(nationality)) { msg =
+		 * "Please Enter your Nation Name"; return new
+		 * ModelAndView("userApplication", "message", msg); } else if
+		 * (StringUtils.isBlank(mailId)) { msg = "Please Enter your mailId";
+		 * return new ModelAndView("userApplication", "message", msg); }else if
+		 * (StringUtils.isBlank(mailingAddress)) { msg =
+		 * "Please Enter your address"; return new
+		 * ModelAndView("userApplication", "message", msg); }else
+		 * if(StringUtils.isBlank(landNum)){ msg =
+		 * "Please Enter your Land line number"; return new
+		 * ModelAndView("userApplication", "message", msg); }else
+		 * if(photo_details==null){ msg = "Please Upload ur photo"; return new
+		 * ModelAndView("userApplication", "message", msg);
+		 * 
+		 * }else if(StringUtils.isBlank(application_name)){
+		 * msg="Please enter application name"; return new
+		 * ModelAndView("userApplication","message",msg); }else
+		 * if(StringUtils.isBlank(user_city)){ msg="Please enter your city";
+		 * return new ModelAndView("userApplication","message",msg); }
+		 * 
+		 * 
+		 * 
+		 * else if (!StringUtils.isBlank(mailId)) { String regex =
+		 * "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"; Boolean token =
+		 * mailingAddress.matches(regex); if (!token) { msg =
+		 * "EmailId Format is Wrong"; return new ModelAndView("userApplication",
+		 * "message", msg); } else if (!NumberUtils.isNumber(mb_num)) { msg =
+		 * "Please enter number only"; return new
+		 * ModelAndView("userApplication", "message", msg);
+		 * 
+		 * }else if(!NumberUtils.isNumber(landNum)){ msg =
+		 * "Please enter number only"; return new
+		 * ModelAndView("userApplication", "message", msg);
+		 * 
+		 * } }
+		 */
+
+		/*
+		 * long mob_num = Long.parseLong(mb_num); long landLineNumber =
+		 * Long.parseLong(landNum); ApplicationContext info = new
+		 * ClassPathXmlApplicationContext("app.xml"); UserDetails userDetails =
+		 * (UserDetails) info.getBean("userDetails"); UserAcademic userAcademic
+		 * = (UserAcademic) info.getBean("userAcademic"); WorkingExperience ex =
+		 * (WorkingExperience) info .getBean("work_experience");
+		 * 
+		 * AwardsAndAchievments awards = (AwardsAndAchievments) info
+		 * .getBean("awards_achievments");
+		 * 
+		 * userAcademic.setPg_cgpa(pRequest.getParameter("pg_percentage"));
+		 * userAcademic.setPg_degree(pRequest.getParameter("pg_degree"));
+		 * userAcademic
+		 * .setPg_discipline(pRequest.getParameter("pg_discipline"));
+		 * userAcademic.setPg_school(pRequest.getParameter("pg_school"));
+		 * userAcademic
+		 * .setPg_university(pRequest.getParameter("pg_university"));
+		 * userAcademic.setPg_year(pRequest.getParameter("pg_passedOut"));
+		 * 
+		 * userAcademic.setUg_cgpa(pRequest.getParameter("ug_percentage"));
+		 * userAcademic.setUg_degree(pRequest.getParameter("ug_degree"));
+		 * userAcademic
+		 * .setUg_discipline(pRequest.getParameter("ug_discipline"));
+		 * userAcademic.setUg_school(pRequest.getParameter("ug_school"));
+		 * userAcademic
+		 * .setUg_university(pRequest.getParameter("ug_university"));
+		 * userAcademic.setUg_year(pRequest.getParameter("ug_passedOut"));
+		 * 
+		 * userAcademic.setHs_cgpa(pRequest.getParameter("hs_percentage"));
+		 * userAcademic.setHs_degree(pRequest.getParameter("hs_degree"));
+		 * userAcademic
+		 * .setHs_discipline(pRequest.getParameter("hs_discipline"));
+		 * userAcademic.setHs_school(pRequest.getParameter("hs_school"));
+		 * userAcademic
+		 * .setHs_university(pRequest.getParameter("hs_university"));
+		 * userAcademic.setHs_year(pRequest.getParameter("hs_passedOut"));
+		 * 
+		 * userAcademic.setS_cgpa(pRequest.getParameter("s_percentage"));
+		 * userAcademic.setS_degree(pRequest.getParameter("s_degree"));
+		 * userAcademic.setS_discipline(pRequest.getParameter("s_discipline"));
+		 * userAcademic.setS_school(pRequest.getParameter("s_school"));
+		 * userAcademic.setS_university(pRequest.getParameter("s_university"));
+		 * userAcademic.setS_year(pRequest.getParameter("s_passedOut"));
+		 */Set<UserAcademic> s = new HashSet<UserAcademic>();
 		// Map<String, UserAcademic> academicMap = new HashMap<String,
 		// UserAcademic>();
 		/*
@@ -386,6 +599,22 @@ public class UserController {
 		 * userAcademic);
 		 */
 
+		// Awards and Achevments
+
+		awards.setAcademicHonors(pRequest.getParameter("academic_honors"));
+		awards.setCh_academicHonors(pRequest.getParameter("ch_academic_honors"));
+		awards.setCh_extracurricular(pRequest
+				.getParameter("ch_extracurricular"));
+		awards.setOthers(pRequest.getParameter("others"));
+		awards.setExtracurricular(pRequest.getParameter("extracurricular"));
+
+		Set<AwardsAndAchievments> awards_ach = new HashSet<AwardsAndAchievments>();
+		awards_ach.add(awards);
+         
+		
+		
+		//ex.setAwards(awards_ach);
+
 		// Working Experience
 		String a_organization = pRequest.getParameter("a_organization");
 		String a_desgination = pRequest.getParameter("a_designation");
@@ -411,9 +640,19 @@ public class UserController {
 		ex.setB_to_date(b_to_date);
 		ex.setB_organization(b_organization);
 
+		ex.setAnual_ctc(pRequest.getParameter("ctc"));
+		ex.setTotal_experience(pRequest.getParameter("work_experience"));
+		
+		Set<WorkingExperience> w_e = new HashSet<WorkingExperience>();
+
+		w_e.add(ex);
+		
+		awards.setWork_experience(w_e);
+		userAcademic.setAwards(awards_ach);
+		
 		// Awards and Achevments
 
-		awards.setAcademicHonors(pRequest.getParameter("academic_honors"));
+		/*awards.setAcademicHonors(pRequest.getParameter("academic_honors"));
 		awards.setCh_academicHonors(pRequest.getParameter("ch_academic_honors"));
 		awards.setCh_extracurricular(pRequest
 				.getParameter("ch_extracurricular"));
@@ -424,12 +663,15 @@ public class UserController {
 		awards_ach.add(awards);
 
 		ex.setAwards(awards_ach);
-
-		Set<WorkingExperience> w_e = new HashSet<WorkingExperience>();
+*/
+		
+		
+		
+/*		Set<WorkingExperience> w_e = new HashSet<WorkingExperience>();
 
 		w_e.add(ex);
-
-		userAcademic.setWork_experience(w_e);
+*/
+		
 		s.add(userAcademic);
 
 		userDetails.setUserName(userName);
@@ -445,21 +687,19 @@ public class UserController {
 		userDetails.setFatherJob(fatherJob);
 		userDetails.setMotherJob(motherJob);
 		userDetails.setLandlineNumber(landLineNumber);
-		userDetails.setPhoto_details(photo_details);
 		userDetails.setApplication_name(application_name);
 		userDetails.setCurrentCity(user_city);
 		userDetails.setUserAcademic(s);
-		userDetails.setAnual_ctc(pRequest.getParameter("ctc"));
+		userDetails.setPhoto_details(photo_details);
+		//userDetails.setAnual_ctc(pRequest.getParameter("ctc"));
 		userDetails.setDate(new Date());
-		userDetails.setTotal_experience(pRequest
-				.getParameter("work_experience"));
+		//userDetails.setTotal_experience(pRequest.getParameter("work_experience"));
 
 		try {
 
-			
 			if (id == null) {
 				UserDetails u = userService.create(userDetails);
-                
+
 				if (!file.isEmpty()) {
 					byte[] b = file.getBytes();
 					String root = System.getProperty("catalina.home");
@@ -486,24 +726,23 @@ public class UserController {
 				byte[] b = file.getBytes();
 				String root = System.getProperty("catalina.home");
 				File f = null;
-					f = new File(root + File.separator + "image");
-					System.out.println(root + File.separator + u.getId()
-							+ photo_details + "id22");
+				f = new File(root + File.separator + "image");
+				System.out.println(root + File.separator + u.getId()
+						+ photo_details + "id22");
 
-					if (!f.exists()) {
-						f.mkdirs();
-					}
-					File ne = new File(f.getAbsolutePath() + File.separator
-							+ u.getPhoto_details() + userDetails.getId());
-					BufferedOutputStream str = new BufferedOutputStream(
-							new FileOutputStream(ne));
-					str.write(b);
-					str.close();
+				if (!f.exists()) {
+					f.mkdirs();
+				}
+				File ne = new File(f.getAbsolutePath() + File.separator
+						+ u.getPhoto_details() + userDetails.getId());
+				BufferedOutputStream str = new BufferedOutputStream(
+						new FileOutputStream(ne));
+				str.write(b);
+				str.close();
 
-			     
 			}
-			List<UserDetails> user=userService.getUserDetails();
-			return new ModelAndView("application","user",user);
+			List<UserDetails> user = userService.getUserDetails();
+			return new ModelAndView("application", "user", user);
 		} catch (Exception e) {
 			System.out.print(e);
 		}
@@ -524,7 +763,7 @@ public class UserController {
 
 		System.out.println(id);
 
-		if (choice.equals("Add")) {
+		if (choice.equals("Click to Add New Application")) {
 			return new ModelAndView("userApplication");
 		}
 
@@ -537,29 +776,28 @@ public class UserController {
 				Iterator<UserDetails> user = userList.iterator();
 				while (user.hasNext()) {
 					userDetails = user.next();
-            
+
 					if (userDetails.getId() == id) {
-									
-						/*String name=userDetails.getPhoto_details();
-					    //pRequest.setAttribute("image", name);
-						System.out.print(name);
-						
-						File f=new File(name);
-						System.out.println("FilePath"+f.getAbsolutePath());
-						String root=System.getProperty("catalina.home");
-	                    System.out.println(root);					
-						
-	                    System.out.println(root+File.separator+"image"+name+id);
-	                    String url=root+File.separator+name+id;
-	                    File f1=new File(url);
-	                    System.out.println(f1);
-	                    FileInputStream fin=new FileInputStream(f1);
-	                    
-	                    pRequest.setAttribute("url", url);
-	                    
-	                    System.out.print(fin);
-						
-*/						return new ModelAndView("editApplication", "user",
+
+						/*
+						 * String name=userDetails.getPhoto_details();
+						 * //pRequest.setAttribute("image", name);
+						 * System.out.print(name);
+						 * 
+						 * File f=new File(name);
+						 * System.out.println("FilePath"+f.getAbsolutePath());
+						 * String root=System.getProperty("catalina.home");
+						 * System.out.println(root);
+						 * 
+						 * System.out.println(root+File.separator+"image"+name+id
+						 * ); String url=root+File.separator+name+id; File
+						 * f1=new File(url); System.out.println(f1);
+						 * FileInputStream fin=new FileInputStream(f1);
+						 * 
+						 * pRequest.setAttribute("url", url);
+						 * 
+						 * System.out.print(fin);
+						 */return new ModelAndView("editApplication", "user",
 								userDetails);
 					}
 
@@ -568,30 +806,24 @@ public class UserController {
 			}
 
 		}
-		
-	/*	if(choice.equals("Delete")){
-			List<UserDetails> userList = userService.getUserDetails();
-			// List userLi = new ArrayList();
-			UserDetails userDetails;
-			if (userList != null) {
-				Iterator<UserDetails> user = userList.iterator();
-				while (user.hasNext()) {
-					userDetails = user.next();
-            
-					if (userDetails.getId() == id) {
-						userService.remove(userDetails);					
-						return new ModelAndView("editApplication", "user",
-								userDetails);
-					}
 
-				}
+		/*
+		 * if(choice.equals("Delete")){ List<UserDetails> userList =
+		 * userService.getUserDetails(); // List userLi = new ArrayList();
+		 * UserDetails userDetails; if (userList != null) {
+		 * Iterator<UserDetails> user = userList.iterator(); while
+		 * (user.hasNext()) { userDetails = user.next();
+		 * 
+		 * if (userDetails.getId() == id) { userService.remove(userDetails);
+		 * return new ModelAndView("editApplication", "user", userDetails); }
+		 * 
+		 * }
+		 * 
+		 * }
+		 * 
+		 * }
+		 */
 
-			}
-
-		}
-			
-*/		
-		
 		return new ModelAndView("logIn");
 	}
 

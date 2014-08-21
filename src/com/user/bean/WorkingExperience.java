@@ -31,18 +31,30 @@ public class WorkingExperience {
 	String b_fr_date;
 	String b_to_date;
 
-	@OneToMany(fetch = FetchType.EAGER,cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
-	@JoinColumn(name = "award_id")
-	private Set<AwardsAndAchievments> awards;
-
-	public Set<AwardsAndAchievments> getAwards() {
-		return awards;
+	private String total_experience;
+	private String anual_ctc;
+	
+	
+	public String getTotal_experience() {
+		return total_experience;
 	}
 
-	public void setAwards(Set<AwardsAndAchievments> awards) {
-		this.awards = awards;
+
+	public void setTotal_experience(String total_experience) {
+		this.total_experience = total_experience;
 	}
 
+
+	public String getAnual_ctc() {
+		return anual_ctc;
+	}
+
+
+	public void setAnual_ctc(String anual_ctc) {
+		this.anual_ctc = anual_ctc;
+	}
+
+	
 	public int getId() {
 		return id;
 	}

@@ -106,17 +106,20 @@ public class UserAcademic {
 	String s_year;
 	String s_cgpa;
 	
-	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
-	@JoinColumn(name = "ex_id")
-	private Set<WorkingExperience> work_experience;
+	
+	@OneToMany(fetch = FetchType.EAGER,cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
+	@JoinColumn(name = "award_id")
+	private Set<AwardsAndAchievments> awards;
 
-	public Set<WorkingExperience> getWork_experience() {
-		return work_experience;
+	public Set<AwardsAndAchievments> getAwards() {
+		return awards;
 	}
 
-	public void setWork_experience(Set<WorkingExperience> work_experience) {
-		this.work_experience = work_experience;
+	public void setAwards(Set<AwardsAndAchievments> awards) {
+		this.awards = awards;
 	}
+
+	
 
 	public int getAcademic_id() {
 		return academic_id;

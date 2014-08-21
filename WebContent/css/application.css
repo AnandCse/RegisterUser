@@ -1,4 +1,4 @@
-.container {
+/* /* .container {
 padding-right: 15px;
 padding-left: 15px;
 margin-right: auto;
@@ -7,3 +7,36 @@ padding-top: 40px;
 padding-bottom: 40px;
 margin-top:40px;
 }
+
+.container {
+padding-right: 15px;
+padding-left: 15px;
+margin-right: auto;
+margin-left: -20px;
+padding-top: 40px;
+padding-bottom: 40px;
+margin-top:40px;
+}
+.row{
+	margin-left:40px;
+}
+.updatesheading3 {
+width: 100%;
+float: left;
+background: url(../images/line4.jpg) no-repeat left bottom;
+
+color: #36798e;
+font-family: monospace;
+padding-bottom: 10px;
+text-transform: uppercase;
+margin-bottom: 15px;
+}
+
+.body {
+font-family: monospace;
+font-size: 13px;
+line-height: 1.42857143;
+color: rgba(17, 7, 7, 1);
+background-color: #fff;
+}
+ */ */

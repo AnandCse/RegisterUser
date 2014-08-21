@@ -1,8 +1,14 @@
 package com.user.bean;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,6 +24,21 @@ public class AwardsAndAchievments {
 	private String ch_extracurricular;
 	private String others;
 
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade={CascadeType.MERGE,CascadeType.REMOVE,CascadeType.PERSIST})
+	@JoinColumn(name = "ex_id")
+	private Set<WorkingExperience> work_experience;
+
+	public Set<WorkingExperience> getWork_experience() {
+		return work_experience;
+	}
+
+	public void setWork_experience(Set<WorkingExperience> work_experience) {
+		this.work_experience = work_experience;
+	}
+	
+
+	
 	public int getAwards_id() {
 		return awards_id;
 	}

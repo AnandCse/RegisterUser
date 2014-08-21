@@ -1,0 +1,30 @@
+.container {
+	padding-right: 0px;
+	padding-left: 100px;
+	margin-right: 0px;
+	margin-left: 100px;
+	margin-top: 100px;
+	padding-top: 100px;
+	padding-bottom: 40px;
+	width: 1000px;
+	background-color: rgba(179, 199, 72, 0.21);
+}
+
+.body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	line-height: 1.42857143;
+	color: rgba(30, 27, 32, 0.67);
+	background-color: rgba(166, 199, 35, 0.51);
+}
+
+.row {
+	margin-right: 0px;
+	margin-left: 0px;
+	margin-top: 20px;
+	margin-bottom: 40px;
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-right: 5px;
+	width: 1200px;
+}
